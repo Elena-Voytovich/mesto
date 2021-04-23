@@ -9,31 +9,6 @@ let formElement = popup.querySelector(".popup__form");
 let nameInput = formElement.querySelector('.popup__text_data_title');
 let jobInput = formElement.querySelector('.popup__text_data_subtitle');
 
-function openPopup() {
-    overlay.classList.add('overlay_visible');
-}
-
-function closePopup() {
-    overlay.classList.remove('overlay_visible');
-}
-
-function editProfileHandler(evt) {
-    evt.preventDefault();
-    openPopup();
-    fillTextInput(profileTitle.textContent, profileSubtitle.textContent);
-}
-
-function closePopupHandler(evt) {
-    evt.preventDefault();
-    closePopup();
-}
-
-function formSubmitHandler(evt) {
-    evt.preventDefault();
-    editProfileInfo(nameInput.value, jobInput.value);
-    closePopup();
-}
-
 function fillTextInput(name, job) {
     nameInput.value = name;
     jobInput.value = job;
@@ -44,6 +19,21 @@ function editProfileInfo(name, job) {
     profileSubtitle.textContent = job;
 }
 
-buttonEditProfile.addEventListener('click', editProfileHandler);
-buttonClosePopup.addEventListener('click', closePopupHandler);
+function openPopup() {
+    overlay.classList.add('overlay_visible');
+    fillTextInput(profileTitle.textContent, profileSubtitle.textContent);
+}
+
+function closePopup() {
+    overlay.classList.remove('overlay_visible');
+}
+
+function formSubmitHandler(evt) {
+    evt.preventDefault();
+    editProfileInfo(nameInput.value, jobInput.value);
+    closePopup();
+}
+
+buttonEditProfile.addEventListener('click', openPopup);
+buttonClosePopup.addEventListener('click', closePopup);
 formElement.addEventListener('submit', formSubmitHandler);
