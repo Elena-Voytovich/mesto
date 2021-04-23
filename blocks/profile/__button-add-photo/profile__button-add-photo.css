@@ -1,0 +1,25 @@
+.profile__button-add-photo {
+    width: 150px;
+    height: 50px;
+    margin: 35px 0 0 auto;
+    border: 2px solid #fff;
+    border-radius: 2px;
+    background-image: url('../../../images/btn-add-photo.svg');
+    background-repeat: no-repeat;
+    background-color: #000;
+    background-position: center;
+    background-size: 22px;
+}
+
+.profile__button-add-photo:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+@media (max-width: 850px) {
+    .profile__button-add-photo {
+        margin: auto;
+        background-size: 16px;
+        width: 282px;
+    }
+}

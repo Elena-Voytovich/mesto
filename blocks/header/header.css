@@ -1,0 +1,17 @@
+.header {
+  position: relative;
+  padding: 45px 0 0;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media (max-width: 1100px) {
+  .header {
+    padding: 45px 0 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .header {
+    padding: 28px 0 0;
+  }
+}

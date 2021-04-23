@@ -1,0 +1,12 @@
+.place {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+}
+
+@media (max-width: 400px) {
+	.place {
+		width: 282px;
+	}
+}

@@ -1,0 +1,17 @@
+.profile__info {
+	display: grid;
+	align-items: baseline;
+	margin-right: 5px;
+	grid-template-areas: "title profile" "subtitle .";
+	grid-template-rows: 1fr 1fr;
+	grid-template-columns: 1fr 24px;
+	column-gap: 18px;
+}
+
+@media (max-width: 850px) {
+	.profile__info {
+		grid-template-rows: 1fr min-content;
+		margin-right: 0;
+		margin-bottom: 36px;
+	}
+}

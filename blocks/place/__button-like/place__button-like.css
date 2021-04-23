@@ -1,0 +1,34 @@
+.place__button-like {
+    border: none;
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    height: 20px;
+    width: 22px;
+    background-image: url('../../../images/btn-not-liked.svg');
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.place__button-like:hover {
+    cursor: pointer;
+    opacity: .5;
+}
+
+.place__button-like:focus {
+    outline: none;
+}
+
+.place__button-like:disabled {
+    background-image: url('../../../images/btn-not-liked.svg');
+}
+
+.place__button-like:active {
+    outline: none;
+    background-image: url('../../../images/btn-liked.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
