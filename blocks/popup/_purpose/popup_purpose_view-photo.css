@@ -1,0 +1,14 @@
+.popup_purpose_view-photo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    color: #fff;
+    background: none;
+    max-width: none;
+    border: none;
+}

@@ -1,5 +1,5 @@
 .overlay {
-    display: none;
+    display: flex;
     position: fixed;
     justify-content: center;
     align-items: center;
@@ -8,6 +8,11 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, .5);
+    visibility: hidden;
+    opacity: 0;
+    transition-property: opacity, visibility;
+    transition-delay: 0s, .4s;
+    transition-duration: .4s, 0s;
 }
 
 @media (max-width: 600px) {
