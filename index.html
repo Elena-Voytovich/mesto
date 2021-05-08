@@ -25,50 +25,7 @@
                 </div>
                 <button class="profile__button-add-photo" type="button"></button>
             </section>
-            <section class="places">
-                <article class="place">
-                    <img class="place__image" src="images/photo-maldives.jpg" alt="Фотогрфия Maldives">
-                    <div class="place__info">
-                        <h2 class="place__title">Thaa, Maldives</h2>
-                        <button class="place__button-like" type="button"> </button>
-                    </div>
-                </article>
-                <article class="place">
-                    <img class="place__image"  src="images/photo-indonesia.jpg" alt="Фотогрфия Indonesia">
-                    <div class="place__info">
-                        <h2 class="place__title">Bali, Indonesia</h2>
-                        <button class="place__button-like" type="button"> </button>
-                    </div>
-                </article>
-                <article class="place">
-                    <img class="place__image" src="images/photo-spain.jpg" alt="Фотогрфия Calle Niño de Guevara">
-                    <div class="place__info">
-                        <h2 class="place__title">Calle Niño de Guevara</h2>
-                        <button class="place__button-like" type="button"> </button>
-                    </div>
-                </article>
-                <article class="place">
-                    <img class="place__image" src="images/photo-chongqing.jpg" alt="Фотогрфия Chongqing">
-                    <div class="place__info">
-                        <h2 class="place__title">Chongqing, 重庆市中国</h2>
-                        <button class="place__button-like" type="button"> </button>
-                    </div>
-                </article>
-                <article class="place">
-                    <img class="place__image" src="images/photo-norway.jpg" alt="Фотогрфия Norway">
-                    <div class="place__info">
-                        <h2 class="place__title">Åndalsnes, Norway</h2>
-                        <button class="place__button-like" type="button"> </button>
-                    </div>
-                </article>
-                <article class="place">
-                    <img class="place__image" src="images/photo-portugal.jpg" alt="Фотогрфия Portugal">
-                    <div class="place__info">
-                        <h2 class="place__title">Ponte 25 de Abril, Lisboa, Portugal</h2>
-                        <button type="button" class="place__button-like"> </button>
-                    </div>
-                </article>
-            </section>
+            <section class="places"></section>
         </main>
 
         <footer class="footer">
@@ -76,7 +33,8 @@
         </footer>
 
     </div>
-    <div class="overlay">
+
+    <div class="overlay overlay-edit-profile">
         <div class="popup">
             <form class="popup__form" name="formEditProfile">
                 <h2 class="popup__title">Редактировать профиль</h2>
@@ -87,6 +45,38 @@
             <button class="popup__button-close" type="button"></button>
         </div>
     </div>
+
+    <div class="overlay overlay-add-photo">
+        <div class="popup">
+            <form class="popup__form" name="formAddPhoto">
+                <h2 class="popup__title">Новое место</h2>
+                <input class="popup__text popup__text_data_title" type="text" name="nameFromAddPhoto" placeholder="Название" required>
+                <input class="popup__text popup__text_data_subtitle" type="text" name="linkFromAddPhoto" placeholder="Добавь ссылку" required>
+                <button class="popup__button-save" type="submit">Создать</button>
+            </form>
+            <button class="popup__button-close" type="button"></button>
+        </div>
+    </div>
+
+    <div class="overlay overlay-view-photo">
+        <div class="popup popup_purpose_view-photo">
+            <img class="popup__image" src="https://i.postimg.cc/3rGM4XvM/photo-maldives.jpg" alt="Фотогрфия Maldives">
+            <h2 class="popup__title popup__title_purpose_view-photo">Заголовок</h2>
+            <button class="popup__button-close" type="button"></button>
+        </div>
+    </div>
+    
+    <template id="article-template">
+        <article class="place">
+            <img class="place__image">
+            <button type="button" class="place__button-delete"> </button>
+            <div class="place__info">
+                <h2 class="place__title"></h2>
+                <button type="button" class="place__button-like"> </button>
+            </div>
+        </article>
+    </template>
+
 
     <script src="./scripts/index.js"></script>
 </body>
