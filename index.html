@@ -34,31 +34,36 @@
 
     </div>
 
-    <div class="overlay overlay-edit-profile">
+    <div class="overlay overlay-edit-profile" tabindex="0">
         <div class="popup">
-            <form class="popup__form" name="form-edit-profile">
+            <form class="popup__form" name="formEditProfile" novalidate>
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <input class="popup__text popup__text_data_title" type="text" name="name-profile" placeholder="Имя" required>
-                <input class="popup__text popup__text_data_subtitle" type="text" name="job-profile" placeholder="Вид деятельности" required>
+                <input class="popup__text popup__text_data_title" id="nameFromFormEditProfile" type="text" name="nameFromFormEditProfile" minlength="2" maxlength="40" required>
+                <span class="popup__text-error" id="nameFromFormEditProfile-error"></span>
+                <input class="popup__text popup__text_data_subtitle" id="jobFromFormEditProfile" type="text" name="jobFromFormEditProfile" minlength="2" maxlength="200" required>
+                <span class="popup__text-error" id="jobFromFormEditProfile-error"></span>
+>>>>>>> develop
                 <button class="popup__button-save" type="submit">Сохранить</button>
             </form>
             <button class="popup__button-close" type="button"></button>
         </div>
     </div>
 
-    <div class="overlay overlay-add-photo">
+    <div class="overlay overlay-add-photo" tabindex="0">
         <div class="popup">
-            <form class="popup__form" name="formAddPhoto">
+            <form class="popup__form" name="formAddPhoto" novalidate>
                 <h2 class="popup__title">Новое место</h2>
-                <input class="popup__text popup__text_data_title" type="text" name="nameFromAddPhoto" placeholder="Название" required>
-                <input class="popup__text popup__text_data_subtitle" type="text" name="linkFromAddPhoto" placeholder="Добавь ссылку" required>
+                <input class="popup__text popup__text_data_title" id="nameFromAddPhoto" type="text" name="nameFromAddPhoto" placeholder="Название" minlength="2" maxlength="30" required>
+                <span class="popup__text-error" id="nameFromAddPhoto-error"></span>
+                <input class="popup__text popup__text_data_subtitle" id="linkFromAddPhoto" type="url" name="linkFromAddPhoto" placeholder="Добавь ссылку" required>
+                <span class="popup__text-error" id="linkFromAddPhoto-error"></span>
                 <button class="popup__button-save" type="submit">Создать</button>
             </form>
             <button class="popup__button-close" type="button"></button>
         </div>
     </div>
 
-    <div class="overlay overlay-view-photo">
+    <div class="overlay overlay-view-photo" tabindex="0">
         <div class="popup popup_purpose_view-photo">
             <img class="popup__image" src="https://i.postimg.cc/3rGM4XvM/photo-maldives.jpg" alt="Фотогрфия Maldives">
             <h2 class="popup__title popup__title_purpose_view-photo">Заголовок</h2>
@@ -77,7 +82,8 @@
         </article>
     </template>
 
-
+    <script src="./scripts/cardsInfo.js"></script>
+    <script src="./scripts/validate.js"></script>
     <script src="./scripts/index.js"></script>
 </body>
 
