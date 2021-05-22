@@ -27,32 +27,6 @@ const buttonCloseViewPhotoPopup = overlayViewPhoto.querySelector('.popup__button
 
 const cardTemplate = document.querySelector('#article-template').content;
 
-const cardsInfo = [
-    {
-        name: 'Thaa, Maldives',
-        link: 'https://i.postimg.cc/3rGM4XvM/photo-maldives.jpg'
-    },
-    {
-        name: 'Bali, Indonesia',
-        link: 'https://i.postimg.cc/rsx7BTky/photo-indonesia.jpg'
-    },
-    {
-        name: 'Calle Niño de Guevara',
-        link: 'https://i.postimg.cc/9FPv1cbJ/photo-spain.jpg'
-    },
-    {
-        name: 'Chongqing, 重庆市中国',
-        link: 'https://i.postimg.cc/RZL43c2C/photo-chongqing.jpg'
-    },
-    {
-        name: 'Åndalsnes, Norway',
-        link: 'https://i.postimg.cc/mgbK5K6R/photo-norway.jpg'
-    },
-    {
-        name: 'Ponte 25 de Abril, Lisboa, Portugal',
-        link: 'https://i.postimg.cc/Nfv31K6K/photo-portugal.jpg'
-    }
-];
 
 function createCards() {
     cardsInfo.forEach(cardInfo => {
@@ -88,10 +62,15 @@ function createCardFromTemplate(cardInfo) {
 
 function openPopup(overlay) {
     overlay.classList.add('overlay_visible');
+    overlay.focus();                             
+    addCloseOverlayByEscape(overlay);      
+    addCloseOverlayByClickOutside(overlay);
 }
 
 function closePopup(overlay) {
     overlay.classList.remove('overlay_visible');
+    removeCloseOverlayByEscape(overlay);  
+    removeCloseOverlayByClickOutside(overlay);
 }
 
 function onShowEditProfilePopup() {
@@ -99,9 +78,14 @@ function onShowEditProfilePopup() {
     openPopup(overlayEditProfile);
 }
 
+const updateInputValue = (inputElement, value) => {
+    inputElement.value = value;
+    inputElement.dispatchEvent(new Event('input'));
+};
+
 function setDefaultUserInfoInputs(name, job) {
-    inputUserName.value = name;
-    inputUserJob.value = job;
+    updateInputValue(inputUserName, name);
+    updateInputValue(inputUserJob, job);
 }
 
 function onCloseEditProfilePopup() {
@@ -110,6 +94,8 @@ function onCloseEditProfilePopup() {
 
 function onShowAddPhotoPopup() {
     openPopup(overlayAddPhoto);
+    inputPhotoName.dispatchEvent(new Event('input'));
+    inputPhotoLink.dispatchEvent(new Event('input'));
 }
 
 function onCloseAddPhotoPopup() {
@@ -151,6 +137,45 @@ function showViewPhotoPopup(evt) {
 function onCloseViewPhotoPopup() {
     closePopup(overlayViewPhoto);
 }
+
+function closePopupOnEscape(event) {
+    if (event.code === 'Escape') {
+        if (event.target.classList.contains('overlay')) {
+            closePopup(event.target);
+        }
+    }
+}
+
+function addCloseOverlayByEscape(overlay) {
+    overlay.addEventListener('keydown', closePopupOnEscape)
+}
+
+function removeCloseOverlayByEscape(overlay) {
+    overlay.removeEventListener('keydown', closePopupOnEscape)
+}
+
+function addCloseOverlayByClickOutside(overlay) {
+    overlay.addEventListener('mousedown', closePopupOnClickOverlay)
+}
+
+function removeCloseOverlayByClickOutside(overlay) {
+    overlay.removeEventListener('mousedown', closePopupOnClickOverlay)
+}
+
+function closePopupOnClickOverlay(event) {
+    if (event.target === event.currentTarget) {
+        closePopup(event.currentTarget);
+    }
+} 
+
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__text',
+    submitButtonSelector: '.popup__button-save',
+    inputErrorClass: 'popup__text_type_error',
+    errorActiveClass: 'popup__text-error_active',
+});
+
 
 document.addEventListener("DOMContentLoaded", createCards);
 

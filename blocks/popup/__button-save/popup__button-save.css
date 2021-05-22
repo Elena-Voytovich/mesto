@@ -29,3 +29,12 @@
 .popup__button-save:active {
     outline: none;
 }
+
+.popup__button-save:disabled {
+    margin-top: 33px;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    opacity: 0.2;
+    cursor: auto;
+}
