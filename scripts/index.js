@@ -1,6 +1,8 @@
 import { cardsInfo, config } from './constants.js';
 import { Card } from './Card.js';
 
+import { FormValidator } from './FormValidator.js';
+
 const overlayEditProfile = document.querySelector('.overlay-edit-profile');
 const titleEditProfile = document.querySelector(".profile__title");
 const subtitleEditProfile = document.querySelector(".profile__subtitle");
@@ -29,6 +31,12 @@ const titleViewPhoto = overlayViewPhoto.querySelector('.popup__title');
 const buttonCloseViewPhotoPopup = overlayViewPhoto.querySelector('.popup__button-close');
 
 const cardTemplate = document.querySelector('#article-template').content;
+
+const editProfileFormValidator = new FormValidator (config, formEditProfilePopup);
+editProfileFormValidator.enableValidation();
+
+const addPhotoFormValidator = new FormValidator (config, formAddPhotoPopup);
+addPhotoFormValidator.enableValidation();
 
 function createCards() {
     cardsInfo.forEach(cardInfo => {
@@ -71,8 +79,7 @@ function onCloseEditProfilePopup() {
 
 function onShowAddPhotoPopup() {
     openPopup(overlayAddPhoto);
-    inputPhotoName.dispatchEvent(new Event('input'));
-    inputPhotoLink.dispatchEvent(new Event('input'));
+    // editProfileFormValidator.hideDefaultInputErrors();
 }
 
 function onCloseAddPhotoPopup() {
