@@ -1,6 +1,7 @@
 .popup__button-save {
     height: 50px;
     margin: 0;
+    margin-top: 38px;
     padding: 0;
     border: none;
     background-color: #000;
@@ -8,6 +9,7 @@
     color: #fff;
     font-size: 18px;
     line-height: 1.21;
+    font-family: Inter, Helvetica, Arial, sans-serif;
     font-weight: 400;
 }
 
@@ -31,7 +33,6 @@
 }
 
 .popup__button-save:disabled {
-    margin-top: 33px;
     color: #000;
     background-color: #fff;
     border: 1px solid #000;
