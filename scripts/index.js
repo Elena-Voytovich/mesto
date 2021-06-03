@@ -1,3 +1,6 @@
+import { cardsInfo, config } from './constants.js';
+import { Card } from './Card.js';
+
 const overlayEditProfile = document.querySelector('.overlay-edit-profile');
 const titleEditProfile = document.querySelector(".profile__title");
 const subtitleEditProfile = document.querySelector(".profile__subtitle");
@@ -27,37 +30,11 @@ const buttonCloseViewPhotoPopup = overlayViewPhoto.querySelector('.popup__button
 
 const cardTemplate = document.querySelector('#article-template').content;
 
-
 function createCards() {
     cardsInfo.forEach(cardInfo => {
-        sectionCards.append(createCardFromTemplate(cardInfo));
+        const card = new Card (cardInfo.name, cardInfo.link, cardTemplate, showViewPhotoPopup);
+        sectionCards.append(card.getCard());
     });
-}
-
-function createCardFromTemplate(cardInfo) {
-    const card = cardTemplate.querySelector('.place').cloneNode(true);
-
-    const image = card.querySelector('.place__image');
-    image.setAttribute('src', cardInfo.link);
-    image.setAttribute('alt', 'Фотография ' + cardInfo.name);
-    image.addEventListener('click', (evt) => {
-        showViewPhotoPopup(evt);
-    })
-
-    const title = card.querySelector('.place__title');
-    title.textContent = cardInfo.name;
-
-    const buttonLike = card.querySelector('.place__button-like');
-    buttonLike.addEventListener('click', (evt) => {
-        evt.target.classList.toggle('place__button-like_active');
-    })
-
-    const buttonDelete = card.querySelector('.place__button-delete');
-    buttonDelete.addEventListener('click', (evt) => {
-        evt.target.parentElement.remove();
-    })
-
-    return card;
 }
 
 function openPopup(overlay) {
@@ -111,12 +88,13 @@ function onSubmitFormEditProfilePopup(evt) {
 function onSubmitFormAddPhotoPopup(evt) {
     evt.preventDefault();
 
-    const card = { 
+    const cardInfo = { 
         name: inputPhotoName.value, 
         link: inputPhotoLink.value 
     };
     
-    sectionCards.prepend(createCardFromTemplate(card));
+    const card = new Card (cardInfo.name, cardInfo.link, cardTemplate, showViewPhotoPopup);
+    sectionCards.prepend(card.getCard());
     formAddPhotoPopup.reset();
     
     closePopup(overlayAddPhoto);
@@ -167,15 +145,6 @@ function closePopupOnClickOverlay(event) {
         closePopup(event.currentTarget);
     }
 } 
-
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__text',
-    submitButtonSelector: '.popup__button-save',
-    inputErrorClass: 'popup__text_type_error',
-    errorActiveClass: 'popup__text-error_active',
-});
-
 
 document.addEventListener("DOMContentLoaded", createCards);
 

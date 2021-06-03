@@ -1,4 +1,4 @@
-const cardsInfo = [
+export const cardsInfo = [
     {
         name: 'Thaa, Maldives',
         link: 'https://i.postimg.cc/3rGM4XvM/photo-maldives.jpg'
@@ -24,3 +24,11 @@ const cardsInfo = [
         link: 'https://i.postimg.cc/Nfv31K6K/photo-portugal.jpg'
     }
 ];
+
+export const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__text',
+    submitButtonSelector: '.popup__button-save',
+    inputErrorClass: 'popup__text_type_error',
+    errorActiveClass: 'popup__text-error_active',
+};
