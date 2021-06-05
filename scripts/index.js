@@ -30,18 +30,20 @@ const imageViewPhoto = overlayViewPhoto.querySelector('.popup__image');
 const titleViewPhoto = overlayViewPhoto.querySelector('.popup__title');
 const buttonCloseViewPhotoPopup = overlayViewPhoto.querySelector('.popup__button-close');
 
-const cardTemplate = document.querySelector('#article-template').content;
-
 const editProfileFormValidator = new FormValidator (config, formEditProfilePopup);
 editProfileFormValidator.enableValidation();
 
 const addPhotoFormValidator = new FormValidator (config, formAddPhotoPopup);
 addPhotoFormValidator.enableValidation();
 
+function renderCard(cardInfo) {
+    const card = new Card (cardInfo, '#article-template', showViewPhotoPopup);
+    return card.getCard();
+}
+
 function createCards() {
     cardsInfo.forEach(cardInfo => {
-        const card = new Card (cardInfo.name, cardInfo.link, cardTemplate, showViewPhotoPopup);
-        sectionCards.append(card.getCard());
+        sectionCards.append(renderCard(cardInfo));
     });
 }
 
@@ -58,7 +60,7 @@ function closePopup(overlay) {
     removeCloseOverlayByClickOutside(overlay);
 }
 
-function onShowEditProfilePopup() {
+function handleEditProfileClick() {
     setDefaultUserInfoInputs(titleEditProfile.textContent, subtitleEditProfile.textContent);
     openPopup(overlayEditProfile);
 }
@@ -77,7 +79,7 @@ function onCloseEditProfilePopup() {
     closePopup(overlayEditProfile);
 }
 
-function onShowAddPhotoPopup() {
+function handleAddPhotoClick() {
     openPopup(overlayAddPhoto);
     // editProfileFormValidator.hideDefaultInputErrors();
 }
@@ -100,8 +102,7 @@ function onSubmitFormAddPhotoPopup(evt) {
         link: inputPhotoLink.value 
     };
     
-    const card = new Card (cardInfo.name, cardInfo.link, cardTemplate, showViewPhotoPopup);
-    sectionCards.prepend(card.getCard());
+    sectionCards.prepend(renderCard(cardInfo));
     formAddPhotoPopup.reset();
     
     closePopup(overlayAddPhoto);
@@ -112,10 +113,10 @@ function setEditProfileTitles(name, job) {
     subtitleEditProfile.textContent = job;
 }
 
-function showViewPhotoPopup(evt) {
-    imageViewPhoto.setAttribute('src', evt.target.src);
-    imageViewPhoto.setAttribute('alt', evt.target.alt);
-    titleViewPhoto.textContent = imageViewPhoto.getAttribute('alt').substr(imageViewPhoto.getAttribute('alt').indexOf(' '));
+function showViewPhotoPopup(name, link) {
+    imageViewPhoto.src = link;
+    imageViewPhoto.alt = name;
+    titleViewPhoto.textContent = name;
     openPopup(overlayViewPhoto);
 }
 
@@ -155,10 +156,10 @@ function closePopupOnClickOverlay(event) {
 
 document.addEventListener("DOMContentLoaded", createCards);
 
-buttonShowEditProfilePopup.addEventListener('click', onShowEditProfilePopup);
+buttonShowEditProfilePopup.addEventListener('click', handleEditProfileClick);
 buttonCloseEditProfilePopup.addEventListener('click', onCloseEditProfilePopup);
 
-buttonShowAddPhotoPopup.addEventListener('click', onShowAddPhotoPopup);
+buttonShowAddPhotoPopup.addEventListener('click', handleAddPhotoClick);
 buttonCloseAddPhotoPopup.addEventListener('click', onCloseAddPhotoPopup);
 
 formAddPhotoPopup.addEventListener('submit', onSubmitFormAddPhotoPopup);
