@@ -1,55 +1,53 @@
 export class Card {
-    constructor(text, imageSrc, cardTemplate, showViewPhotoPopup) {
-        this._text = text;
-        this._imageSrc = imageSrc;
-        this._cardTemplate = cardTemplate;
+    constructor(data, cardSelector, showViewPhotoPopup) {
+        this._text = data.name;
+        this._imageSrc = data.link;
+        this._cardSelector = cardSelector;
         this._showViewPhotoPopup = showViewPhotoPopup;
     }
 
     getCard() {
-        const card = this._getCardTemplate();
+        this._element = this._getCardTemplate();
 
-        this._initImage(card);
-        this._initTitle(card);
-        this._initButtonLike(card);
-        this._initButtonDelete(card);
+        this._setEventListeners();
+        this._initImage();
+        this._initTitle();
 
-        return card;
+        return this._element;
     }
 
     _getCardTemplate() {
-        return this._cardTemplate.querySelector('.place').cloneNode(true);
+        return document.querySelector(this._cardSelector).content
+        .querySelector('.place').cloneNode(true);
     }
 
-    _initImage(card) {
-        const image = card.querySelector('.place__image');
+    _initImage() {
+        const image = this._element.querySelector('.place__image');
 
         image.setAttribute('src', this._imageSrc);
         image.setAttribute('alt', 'Фотография ' + this._text);
-        image.addEventListener('click', (evt) => {
-            this._showViewPhotoPopup(evt);
-        })
     }
 
-    _initTitle(card) {
-        const title = card.querySelector('.place__title');
+    _initTitle() {
+        const title = this._element.querySelector('.place__title');
 
         title.textContent = this._text;
     }
 
-    _initButtonLike(card) {
-        const buttonLike = card.querySelector('.place__button-like');
-
-        buttonLike.addEventListener('click', (evt) => {
-            evt.target.classList.toggle('place__button-like_active');
-        })
+    _handleLikeIcon = () => {
+        this._element.querySelector('.place__button-like').classList.toggle('place__button-like_active');
     }
 
-    _initButtonDelete(card) {
-        const buttonDelete = card.querySelector('.place__button-delete');
+    _handleDeleteIcon = () => {
+        this._element.querySelector('.place__button-delete').parentElement.remove();
+    }
 
-        buttonDelete.addEventListener('click', (evt) => {
-            evt.target.parentElement.remove();
-        })
+    _setEventListeners() {
+        this._element.querySelector('.place__image').addEventListener('click', () => {
+            this._showViewPhotoPopup(this._text, this._imageSrc);
+        });
+
+        this._element.querySelector('.place__button-like').addEventListener('click', this._handleLikeIcon);
+        this._element.querySelector('.place__button-delete').addEventListener('click', this._handleDeleteIcon);
     }
 }
