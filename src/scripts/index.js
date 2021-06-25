@@ -1,25 +1,24 @@
-import { cardsInfo, cardListSection, config } from './constants.js';
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import { Section } from './Section.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { UserInfo } from './UserInfo.js';
-import { PopupWithImage } from './PopupWithImage.js';
+import '../pages/index.css';
+import { Card } from '../scripts/Card.js';
+import { FormValidator } from '../scripts/FormValidator.js';
+import { Section } from './scripts/Section.js';
+import { UserInfo } from './scripts/UserInfo.js';
+import { PopupWithForm } from './scripts/PopupWithForm.js';
+import { PopupWithImage } from './scripts/PopupWithImage.js';
 
-const buttonShowEditProfilePopup = document.querySelector('.profile__button-edit-profile');
-const buttonShowAddPhotoPopup = document.querySelector('.profile__button-add-photo');
-
-const overlayEditProfile = document.querySelector('.overlay-edit-profile');
-const formEditProfilePopup = overlayEditProfile.querySelector('.popup__form');
-
-const overlayAddPhoto = document.querySelector('.overlay-add-photo');
-const formAddPhotoPopup = overlayAddPhoto.querySelector('.popup__form');
-
-const inputUserName = document.querySelector('.popup__text_data_title');
-const inputUserJob = document.querySelector('.popup__text_data_subtitle');
-
-const inputPhotoName = formAddPhotoPopup.querySelector('.popup__text_data_title');
-const inputPhotoLink = formAddPhotoPopup.querySelector('.popup__text_data_subtitle');
+import { 
+    config,
+    cardsInfo,
+    cardListSection,
+    buttonShowEditProfilePopup,
+    buttonShowAddPhotoPopup,
+    formEditProfilePopup,
+    formAddPhotoPopup,
+    inputUserName,
+    inputUserJob,
+    inputPhotoName,
+    inputPhotoLink 
+} from './scripts/constants.js';
 
 // Validation
 const editProfileFormValidator = new FormValidator (config, formEditProfilePopup);
