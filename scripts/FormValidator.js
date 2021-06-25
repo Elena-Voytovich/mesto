@@ -59,18 +59,6 @@ export class FormValidator {
         })
     }
 
-    // hideDefaultInputErrors() {
-    //     const inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
-
-    //     inputList.forEach((inputElement) => {
-    //         this._hideInputError(inputElement, this._form, this._config);
-    //     });
-
-    //     const buttonElement = this._form.querySelector(this._config.submitButtonSelector);
-
-    //     this._toggleButtonState(buttonElement, inputList);
-    // }
-
     enableValidation() {
         this._setEventListeners();
     }
