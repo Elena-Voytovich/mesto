@@ -25,6 +25,8 @@ export const cardsInfo = [
     }
 ];
 
+export const cardListSection = '.places';
+
 export const config = {
     formSelector: '.popup__form',
     inputSelector: '.popup__text',
