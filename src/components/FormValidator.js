@@ -2,6 +2,8 @@ export class FormValidator {
     constructor(config, form) {
         this._config = config;
         this._form = form;
+        this._submitButton = this._form.querySelector(this._config.submitButtonSelector);
+        this._inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
     }
 
     _hideInputError = (inputElement) => {
@@ -26,35 +28,36 @@ export class FormValidator {
         }
     }
     
-    _hasInvalidInput = (inputList) => {
-        return inputList.some((inputElement) => {
+    _hasInvalidInput = () => {
+        return this._inputList.some((inputElement) => {
             return !inputElement.validity.valid;
         })
     };
     
-    _toggleButtonState = (buttonElement, inputList) => {
-        if (this._hasInvalidInput(inputList)) {
-            buttonElement.disabled = true;
+    _toggleButtonState = () => {
+        if (this._hasInvalidInput()) {
+            this._submitButton.disabled = true;
         } else {
-            buttonElement.disabled = false;
+            this._submitButton.disabled = false;
         }
     }
+
+    disableSubmitButton() {
+        this._submitButton.disabled = true;
+    } 
     
     _setEventListeners = () => {
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            buttonElement.disabled = true;
+            this._submitButton.disabled = true;
         });
     
-        const inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
-        const buttonElement = this._form.querySelector(this._config.submitButtonSelector);
+        this._toggleButtonState();
     
-        this._toggleButtonState(buttonElement, inputList);
-    
-        inputList.forEach((inputElement) => {
+        this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
                 this._checkInputValidity(inputElement);
-                this._toggleButtonState(buttonElement, inputList);
+                this._toggleButtonState();
             });
         })
     }

@@ -2,15 +2,16 @@ export class Popup {
     constructor(popupSelector) {
         this._popup = document.querySelector(popupSelector);
         this._popupButtonClose = this._popup.querySelector('.popup__button-close');
+        this._onEsc = this._handleEscClose.bind(this);
     }
 
     open() {
-        document.addEventListener('keydown', (evt) => {this._handleEscClose(evt)});
+        document.addEventListener('keydown', this._onEsc);
         this._popup.classList.add('overlay_visible');
     }
 
     close() {
-        document.removeEventListener('keydown', (evt) => {this._handleEscClose(evt)});
+        document.removeEventListener('keydown', this._onEsc);
         this._popup.classList.remove('overlay_visible');
     }
 

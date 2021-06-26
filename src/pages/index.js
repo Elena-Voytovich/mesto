@@ -1,10 +1,10 @@
-import '../pages/index.css';
-import { Card } from '../scripts/Card.js';
-import { FormValidator } from '../scripts/FormValidator.js';
-import { Section } from './scripts/Section.js';
-import { UserInfo } from './scripts/UserInfo.js';
-import { PopupWithForm } from './scripts/PopupWithForm.js';
-import { PopupWithImage } from './scripts/PopupWithImage.js';
+import './index.css';
+import { Card } from '../components/Card';
+import { FormValidator } from '../components/FormValidator.js';
+import { Section } from '../components/Section.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
 
 import { 
     config,
@@ -18,7 +18,7 @@ import {
     inputUserJob,
     inputPhotoName,
     inputPhotoLink 
-} from './scripts/constants.js';
+} from '../components/constants.js';
 
 // Validation
 const editProfileFormValidator = new FormValidator (config, formEditProfilePopup);
@@ -45,15 +45,20 @@ const userInfo = new UserInfo({
     jobSelector: '.profile__subtitle'
 });
 
+// Create card
+function createCard(item) {
+    const card = new Card (item, '#article-template', item => viewPhotoPopup.open(item));
+    return card.getCard();
+}
+
 // Add photo popup
 const addPhotoPopup = new PopupWithForm('.overlay-add-photo', () => {
-    const cardInfo = { 
+    const item = { 
         name: inputPhotoName.value, 
         link: inputPhotoLink.value 
     };
 
-    const card = new Card (cardInfo, '#article-template', item => viewPhotoPopup.open(item));
-    cardList.addItem(card.getCard());
+    cardList.addItem(createCard(item));
 
     addPhotoPopup.close();
 });
@@ -68,8 +73,7 @@ viewPhotoPopup.setEventListeners();
 const cardList = new Section ({
     items: cardsInfo,
     renderer: (item) => {
-        const card = new Card (item, '#article-template', item => viewPhotoPopup.open(item));
-        cardList.addItem(card.getCard());
+        cardList.addItem(createCard(item));
     }
 }, cardListSection)
 
@@ -87,5 +91,7 @@ function handleEditProfileClick() {
 
 buttonShowEditProfilePopup.addEventListener('click', handleEditProfileClick);
 buttonShowAddPhotoPopup.addEventListener('click', () => {
+    console.log('enabled');
+    addPhotoFormValidator.disableSubmitButton();
     addPhotoPopup.open();
 });

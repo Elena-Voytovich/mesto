@@ -4,16 +4,15 @@ import { config } from "./constants.js";
 export class PopupWithForm extends Popup {
     constructor(popupSelector, sumbitCallback) {
         super(popupSelector);
-        const { formSelector } = config;
+        const { inputSelector, formSelector } = config;
         this._submitCallback = sumbitCallback;
         this._form = this._popup.querySelector(formSelector);
+        this._inputList = this._form.querySelectorAll(inputSelector);
     }
 
     _getInputValues() {
-        const { inputSelector } = config;
-        const inputList = this._form.querySelectorAll(inputSelector);
         const value = {};
-        inputList.forEach((input) => {
+        this._inputList.forEach((input) => {
             value[input.name] = input.value;
         })
 
