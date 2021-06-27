@@ -91,7 +91,6 @@ function handleEditProfileClick() {
 
 buttonShowEditProfilePopup.addEventListener('click', handleEditProfileClick);
 buttonShowAddPhotoPopup.addEventListener('click', () => {
-    console.log('enabled');
     addPhotoFormValidator.disableSubmitButton();
     addPhotoPopup.open();
 });
