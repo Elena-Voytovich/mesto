@@ -8,7 +8,17 @@ export class PopupWithForm extends Popup {
         this._submitCallback = sumbitCallback;
         this._form = this._popup.querySelector(formSelector);
         this._inputList = this._form.querySelectorAll(inputSelector);
+        this._submitButton = this._popup.querySelector('.popup__button-save');
+        this._submitButtonText = this._submitButton.textContent;
     }
+
+    renderLoading(isLoading) {
+        if (isLoading === true) {
+          this._submitButton.textContent = 'Сохранение...';
+        } else {
+          this._submitButton.textContent = this._submitButtonText;
+        }
+      }
 
     _getInputValues() {
         const value = {};

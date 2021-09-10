@@ -5,62 +5,156 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithFormSubmit } from '../components/PopupWithFormSubmit.js';
+import { Api } from '../components/Api.js';
 
 import { 
     config,
-    cardsInfo,
+    avatar,
+    linkAvatar,
     cardListSection,
     buttonShowEditProfilePopup,
     buttonShowAddPhotoPopup,
     formEditProfilePopup,
     formAddPhotoPopup,
+    formEditAvatar,
     inputUserName,
-    inputUserJob,
+    inputUserAbout,
     inputPhotoName,
     inputPhotoLink 
 } from '../components/constants.js';
 
 // Validation
-const editProfileFormValidator = new FormValidator (config, formEditProfilePopup);
+const editProfileFormValidator = new FormValidator(config, formEditProfilePopup);
 editProfileFormValidator.enableValidation();
 
-const addPhotoFormValidator = new FormValidator (config, formAddPhotoPopup);
+const addPhotoFormValidator = new FormValidator(config, formAddPhotoPopup);
 addPhotoFormValidator.enableValidation();
+
+const changeAvatarValidator = new FormValidator(config, formEditAvatar);
+changeAvatarValidator.enableValidation();
+
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-25'
+});
+
+// Create card
+function createCard(data, currentUserId) {
+    const card = new Card(data, '#article-template', {
+        viewImage: item => viewPhotoPopup.open(item),
+        confirmDelete: () => {
+            confirmPopup.setSubmitAction((evt) => {
+                evt.preventDefault()
+                api.deleteCard(data._id)
+                    .then(() => {
+                        card.remove();
+                        confirmPopup.close();
+                    })
+                    .catch(err => console.error(err));
+            });
+            confirmPopup.open();
+        },
+        likeHandler: () => {
+            if (card.liked) {
+                api.deleteLike(data._id)
+                    .then(json => {
+                        card.setLikes(json.likes);
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                api.addLike(data._id)
+                    .then(json => {
+                        card.setLikes(json.likes);
+                    })
+                    .catch(err => console.error(err));
+            }
+        }
+    });
+    card.setCurrentUser(currentUserId);
+    return card.getCard();
+}
+
+// User info
+const userInfo = new UserInfo({
+    nameSelector: '.profile__title',
+    aboutSelector: '.profile__subtitle',
+    avatarSelector: '.profile__avatar'
+});
+
+// Get cards
+let cardSection;
+
+Promise.all([
+        api.getUserInfo(),
+        api.getCards()
+    ])
+    .then(([user, data]) => {
+        userInfo.setUserInfo(user);
+        userInfo.setAvatar(user);
+        cardSection = new Section({
+            items: data,
+            renderer: (item) => {
+                const card = createCard(item, userInfo.getId());
+                cardSection.addItem(card);
+            }
+        }, cardListSection);
+
+        cardSection.renderItems();
+    })
+    .catch(err => console.log(err));
 
 // Profile popup
 const editProfilePopup = new PopupWithForm('.overlay-edit-profile', () => {
     const data = {
         name: inputUserName.value,
-        job: inputUserJob.value
+        about: inputUserAbout.value
     }
-    userInfo.setUserInfo(data);
-    editProfilePopup.close();
+
+    editProfilePopup.renderLoading(true);
+
+    api.updateUserInfo(data)
+        .then(user => {
+            userInfo.setUserInfo(user);
+            editProfilePopup.close();
+            editProfilePopup.renderLoading(false);
+        })
+        .catch(err => console.error(err));
 });
 
 editProfilePopup.setEventListeners();
 
-// User info
-const userInfo = new UserInfo({
-    nameSelector: '.profile__title', 
-    jobSelector: '.profile__subtitle'
+// Update avatar popup
+const avatarPopup = new PopupWithForm('.overlay-edit-avatar', (inputValue) => {
+    avatarPopup.renderLoading(true);
+    api.editAvatarImage(inputValue)
+        .then(user => {
+            userInfo.setAvatar(user);
+            avatarPopup.close();
+            avatarPopup.renderLoading(false);
+        })
+        .catch(err => console.error(err));
 });
-
-// Create card
-function createCard(item) {
-    const card = new Card (item, '#article-template', item => viewPhotoPopup.open(item));
-    return card.getCard();
-}
+avatarPopup.setEventListeners();
 
 // Add photo popup
 const addPhotoPopup = new PopupWithForm('.overlay-add-photo', () => {
-    const item = { 
-        name: inputPhotoName.value, 
-        link: inputPhotoLink.value 
+    const item = {
+        name: inputPhotoName.value,
+        link: inputPhotoLink.value
     };
 
-    cardList.addItem(createCard(item));
+    addPhotoPopup.renderLoading(true);
 
-    addPhotoPopup.close();
+    api.addCard(item)
+        .then(json => {
+            return createCard(json, userInfo.getId());
+        })
+        .then(card => {
+            cardSection.addItem(card, 'prepend');
+            addPhotoPopup.close();
+            addPhotoPopup.renderLoading(false);
+        })
+        .catch(err => console.error(err))
 });
 
 addPhotoPopup.setEventListeners();
@@ -69,25 +163,25 @@ addPhotoPopup.setEventListeners();
 const viewPhotoPopup = new PopupWithImage('.overlay-view-photo');
 viewPhotoPopup.setEventListeners();
 
-// Card list
-const cardList = new Section ({
-    items: cardsInfo,
-    renderer: (item) => {
-        cardList.addItem(createCard(item));
-    }
-}, cardListSection)
-
-cardList.renderItems();
-
 // Update info
 function handleEditProfileClick() {
-    const {name, job} = userInfo.getUserInfo();
+    const {name, about} = userInfo.getUserInfo();
 
     inputUserName.value = name;
-    inputUserJob.value = job;
+    inputUserAbout.value = about;
 
     editProfilePopup.open();
 }
+
+// Update avatar 
+avatar.addEventListener('click', () => {
+    linkAvatar.value = '';
+    avatarPopup.open()
+})
+
+// Confirm popup
+const confirmPopup = new PopupWithFormSubmit('.overlay-delete');
+confirmPopup.setEventListeners();
 
 buttonShowEditProfilePopup.addEventListener('click', handleEditProfileClick);
 buttonShowAddPhotoPopup.addEventListener('click', () => {
