@@ -16,11 +16,14 @@
 
         <main class="content">
             <section class="profile">
-                <img class="profile__avatar" src="<%=require('./images/profile-image.jpg')%>" alt="Фотогрфия Жак-Ив Кусто">
+                <div class="profile__image">
+                    <img class="profile__avatar" alt="Фотогрфия">
+                    <div class="profile__edit-image"></div>
+                </div>
                 <div class="profile__info">
-                    <h1 class="profile__title">Жак-Ив Кусто</h1>
+                    <h1 class="profile__title"></h1>
                     <button class="profile__button-edit-profile" type="button"></button>
-                    <p class="profile__subtitle">Исследователь океана</p>
+                    <p class="profile__subtitle"></p>
                 </div>
                 <button class="profile__button-add-photo" type="button"></button>
             </section>
@@ -61,21 +64,44 @@
         </div>
     </div>
 
-    <div class="overlay overlay-view-photo" tabindex="0">
-        <div class="popup popup_purpose_view-photo">
-            <img class="popup__image" src="./" alt="Фотогрфия Maldives">
-            <h2 class="popup__title popup__title_purpose_view-photo">Заголовок</h2>
+    <div class="overlay overlay-edit-avatar" tabindex="0">
+        <div class="popup">
+            <form class="popup__form" name="formChangeAvatar" novalidate>
+                <h2 class="popup__title">Обновить аватар</h2>
+                <input class="popup__text popup__text_data_subtitle" type="url" name="linkChangeAvatar" id="linkChangeAvatar" required placeholder="Добавь ссылку">
+                <span class="popup__text-error" id="linkChangeAvatar-error"></span>
+                <button class="popup__button-save" type="submit">Создать</button>
+            </form>
             <button class="popup__button-close" type="button"></button>
         </div>
     </div>
-    
+
+    <div class="overlay overlay-view-photo" tabindex="0">
+        <div class="popup popup_purpose_view-photo">
+            <img class="popup__image" src="#" alt="">
+            <h2 class="popup__title popup__title_purpose_view-photo"></h2>
+            <button class="popup__button-close" type="button"></button>
+        </div>
+    </div>
+    <div class="overlay overlay-delete" tabindex="0">
+        <div class="popup">
+            <form class="popup__form" name="formDeleteCard" novalidate>
+                <h2 class="popup__title popup__title_purpose_sure">Вы уверены?</h2>
+                <button class="popup__button-save popup__button-save_purpose_sure" type="submit">Да</button>
+            </form>
+            <button class="popup__button-close" type="button"></button>
+        </div>
+    </div>
     <template id="article-template">
         <article class="place">
             <img class="place__image">
             <button type="button" class="place__button-delete"> </button>
             <div class="place__info">
                 <h2 class="place__title"></h2>
-                <button type="button" class="place__button-like"> </button>
+                <div class="place__like-info">
+                    <button class="place__button-like" type="button"> </button>
+                    <span class="place__quantity-of-likes">0</span>
+                </div>
             </div>
         </article>
     </template>

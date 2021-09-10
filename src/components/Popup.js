@@ -8,6 +8,7 @@ export class Popup {
     open() {
         document.addEventListener('keydown', this._onEsc);
         this._popup.classList.add('overlay_visible');
+        this._popup.focus();
     }
 
     close() {
