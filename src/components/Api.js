@@ -1,15 +1,14 @@
-export class Api {
-  constructor() {
-    this._baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-25';
+class Api {
+  constructor(options) {
+    this._baseUrl = options.baseUrl;
+    this._headers = options.headers;
   }
 
   _request(params) {
+    console.log(params);
     return fetch(this._baseUrl + params.path, {
       method: params.method,
-      headers: {
-        authorization: '0ea190f7-db7a-41d1-85b1-de23df027298',
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify(params.body),
     })
     .then(res => {
@@ -28,6 +27,7 @@ export class Api {
   }
 
   updateUserInfo(info) {
+    console.log(info)
     return this._request({
       path: '/users/me',
       method: 'PATCH',
@@ -81,3 +81,11 @@ export class Api {
     });
   }
 }
+
+export const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-25',
+  headers: {
+    authorization: '0ea190f7-db7a-41d1-85b1-de23df027298',
+    'Content-Type': 'application/json'
+  }
+})

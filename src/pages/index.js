@@ -6,12 +6,11 @@ import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithFormSubmit } from '../components/PopupWithFormSubmit.js';
-import { Api } from '../components/Api.js';
+import { api } from '../components/Api.js';
 
 import { 
     config,
     avatar,
-    linkAvatar,
     cardListSection,
     buttonShowEditProfilePopup,
     buttonShowAddPhotoPopup,
@@ -19,10 +18,8 @@ import {
     formAddPhotoPopup,
     formEditAvatar,
     inputUserName,
-    inputUserAbout,
-    inputPhotoName,
-    inputPhotoLink 
-} from '../components/constants.js';
+    inputUserAbout
+} from '../utils/constants.js';
 
 // Validation
 const editProfileFormValidator = new FormValidator(config, formEditProfilePopup);
@@ -33,10 +30,6 @@ addPhotoFormValidator.enableValidation();
 
 const changeAvatarValidator = new FormValidator(config, formEditAvatar);
 changeAvatarValidator.enableValidation();
-
-const api = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-25'
-});
 
 // Create card
 function createCard(data, currentUserId) {
@@ -104,15 +97,10 @@ Promise.all([
     .catch(err => console.log(err));
 
 // Profile popup
-const editProfilePopup = new PopupWithForm('.overlay-edit-profile', () => {
-    const data = {
-        name: inputUserName.value,
-        about: inputUserAbout.value
-    }
-
+const editProfilePopup = new PopupWithForm('.overlay-edit-profile', (inputValue) => {
     editProfilePopup.renderLoading(true);
 
-    api.updateUserInfo(data)
+    api.updateUserInfo(inputValue)
         .then(user => {
             userInfo.setUserInfo(user);
             editProfilePopup.close();
@@ -137,15 +125,10 @@ const avatarPopup = new PopupWithForm('.overlay-edit-avatar', (inputValue) => {
 avatarPopup.setEventListeners();
 
 // Add photo popup
-const addPhotoPopup = new PopupWithForm('.overlay-add-photo', () => {
-    const item = {
-        name: inputPhotoName.value,
-        link: inputPhotoLink.value
-    };
-
+const addPhotoPopup = new PopupWithForm('.overlay-add-photo', (inputValue) => {
     addPhotoPopup.renderLoading(true);
 
-    api.addCard(item)
+    api.addCard(inputValue)
         .then(json => {
             return createCard(json, userInfo.getId());
         })
@@ -175,8 +158,8 @@ function handleEditProfileClick() {
 
 // Update avatar 
 avatar.addEventListener('click', () => {
-    linkAvatar.value = '';
-    avatarPopup.open()
+    changeAvatarValidator.disableSubmitButton();
+    avatarPopup.open();
 })
 
 // Confirm popup
